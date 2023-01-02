@@ -17,9 +17,10 @@
 </head>
 <body>
     <h2> Game: </h2>
-    <canvas id="game" width="20" height="20">
-
-    </canvas>
-    <script src="./game.js"></script>
+    <canvas id="screen" width="20" height="20"></canvas>
+    <script>
+        const screen = document.getElementById('screen');
+        const context = screen.getContext('2d')
+    </script>
 </body>
 </html>
