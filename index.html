@@ -25,19 +25,44 @@
 
         function createGame() {
             const state = {
-                players: {
-                    'player1': {x: 1, y:1},
-                    'player2': {x: 19, y:9}
-                },
-                fruits: {
-                    'fruit1': {x: 3, y: 1},
-                    'fruit2': {x: 4, y: 6}
-                }
+                players: {},
+                fruits: {}
+            }
+
+            function addPlayer(command) {
+                const playerId = command.playerId;
+                const playerX = command.playerX;
+                const playerY = command.playerY;
+
+                state.players[playerId] = {
+                    x: playerX,
+                    y: playerY
+                };
+            }
+
+            function removePlayer(command) {
+                const playerId = command.playerId;
+                delete state.players[playerId];
+            }
+
+
+            function addFruit(command) {
+                const fruitId = command.fruitId;
+                const fruitX = command.fruitX;
+                const fruitY = command.fruitY;
+
+                state.fruits[fruitId] = {
+                    x: fruitX,
+                    y: fruitY
+                };
+            }
+
+            function removeFruit(command) {
+                const fruitId = command.fruitId;
+                delete state.fruits[fruitId];
             }
 
             function movePlayer(command){
-                console.log(`game.movePlayer() -> Received of ${command.playerId} the key ${command.keyPressed}`);
-
                 const acceptedMoves = {
                     ArrowUp(player) {
                         console.log('Moving player up');
@@ -58,21 +83,47 @@
                 }
 
                 const keyPressed = command.keyPressed;
-                const player = state.players[command.playerId];
+                const playerId = command.playerId;
+                const player = state.players[playerId];
                 const moveFunction = acceptedMoves[keyPressed];
-                if (moveFunction){
+                if (moveFunction && player){
                     moveFunction(player);
+                    checkFruitCollision(playerId);
                 }
 
             }
 
+            function checkFruitCollision(playerId){
+                const player = state.players[playerId]
+
+                for(const fruitId in state.fruits) {
+                    const fruit = state.fruits[fruitId];
+                    if (player.x === fruit.x && player.y === fruit.y){
+                        console.log(`COLLISION DETECTED ${playerId} and ${fruitId}`);
+                        removeFruit({fruitId});
+                        return
+                    }
+                    console.log(`Checking ${playerId} and ${fruitId}`)
+                }
+            }
+
             return {
+                addPlayer,
+                removePlayer,
+                addFruit,
+                removeFruit,
                 movePlayer,
-                state
+                state,
             }
         }
 
         const game = createGame();
+
+        game.addFruit({fruitId: 'fruit1', fruitX: 2, fruitY: 2})
+        game.addFruit({fruitId: 'fruit2', fruitX: 3, fruitY: 5})
+        game.addPlayer({playerId: 'player1', playerX: 1, playerY: 4})
+        game.addPlayer({playerId: 'player2', playerX: 6, playerY: 9})
+
         const keyboardListener = createKeyboardListener(currentPlayerId); 
         keyboardListener.subscribe(game.movePlayer);
 
@@ -87,8 +138,6 @@
             }
 
             function notifyAll(command){
-                console.log(`keyboard -> Notifying ${state.observers.length} observers`);
-
                 for (const observerFunction of state.observers){
                     observerFunction(command);
                 }
