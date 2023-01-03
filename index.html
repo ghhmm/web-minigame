@@ -123,6 +123,7 @@
         game.addFruit({fruitId: 'fruit2', fruitX: 3, fruitY: 5})
         game.addPlayer({playerId: 'player1', playerX: 1, playerY: 4})
         game.addPlayer({playerId: 'player2', playerX: 6, playerY: 9})
+        console.log(game.state);
 
         const keyboardListener = createKeyboardListener(currentPlayerId); 
         keyboardListener.subscribe(game.movePlayer);
