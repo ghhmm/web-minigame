@@ -18,11 +18,13 @@
         .div-container{
             display: flex;
             gap: 10px;
+            width: 100%;
+            justify-content: center;
         }
 
         .scoreboard {
             border: 1px solid black;
-            width: 100%;
+            width: 15%;
             justify-self: center;
         }
 
@@ -52,7 +54,7 @@
 
         const game = createGame();
 
-        function addScoreboard(playerId, score){
+        function addScoreboard(playerId, command){
             const scoreboard = document.getElementsByClassName('scoreboard')[0]
             const scoreds = scoreboard.querySelectorAll('p')
 
@@ -63,25 +65,24 @@
             pId.innerHTML = playerId
             pId.id = playerId
             pScore.id = 'score'
-            pScore.innerHTML = score
+            pScore.innerHTML = command.players[playerId].score
 
             divContainer.appendChild(pId);
             divContainer.appendChild(pScore);
 
-            function canScore(scores){
-                for(const score in scores){
-                    if (scores[score].id === playerId){
-                        
-                    }else scoreboard.appendChild(divContainer);
-                    console.log(scores[score].id)
-                }
+            const players = command.players
+            for(const player in players){
+                scoreboard.appendChild(divContainer);
+                console.log(players[player].playerId);
             }
-            scoreds ? canScore(scoreds)  : console.log('Dont have scores');
             
         }
 
-        function removeScoreboard(){
-
+        function removeScoreboard(playerId){
+            const scores = scoreboard.querySelectorAll('p');
+            for(const score in scores){
+                console.log(scores[score].id);
+            }
         }
 
         const keyboardListener = createKeyboardListener(document);
@@ -104,6 +105,11 @@
             keyboardListener.subscribe((command) => {
                 socket.emit(command.type, command)
             })
+            for(const player in game.state.players){
+                const playerId = game.state.players[player].playerId
+                const score = game.state.players[player].score
+                addScoreboard(playerId, state)
+            }
             const screen = document.getElementById('screen');
             screen.width = state.screen.width;
             screen.height = state.screen.height;
@@ -129,12 +135,6 @@
             const playerId = socket.id
             if (playerId !== command.playerId){
                 game.movePlayer(command)
-            }
-
-            for(const player in game.state.players){
-                const playerId = game.state.players[player].playerId
-                const score = game.state.players[player].score
-                addScoreboard(playerId, score)
             }
         })
 
