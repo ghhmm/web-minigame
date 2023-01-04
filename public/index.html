@@ -53,36 +53,44 @@
         import renderScreen from './render-screen.js'
 
         const game = createGame();
+        const scoreboard = document.getElementsByClassName('scoreboard')[0]
+        const scores = []
 
-        function addScoreboard(playerId, command){
-            const scoreboard = document.getElementsByClassName('scoreboard')[0]
-            const scoreds = scoreboard.querySelectorAll('p')
 
+        function createElementScore(playerId, command){
             const divContainer = document.createElement('div')
             const pId = document.createElement('p');
-            const pScore = document.createElement('p');
+            const pScore = document.createElement('span');
 
             pId.innerHTML = playerId
             pId.id = playerId
             pScore.id = 'score'
             pScore.innerHTML = command.players[playerId].score
+            divContainer.className = 'div-score-container'
 
             divContainer.appendChild(pId);
             divContainer.appendChild(pScore);
 
-            const players = command.players
-            for(const player in players){
-                scoreboard.appendChild(divContainer);
-                console.log(players[player].playerId);
-            }
+            scoreboard.appendChild(divContainer)
+        }
+
+        function addScoreboard(playerId, command, first) {
+            const players = command.players;
             
+            for(const player in players){
+                scores.push({playerId: player});
+                for(const id in scores){
+                    if (playerId === id){
+                        
+                    }
+                }
+                createElementScore(player, command)
+            }
+            console.log(scores)
         }
 
         function removeScoreboard(playerId){
-            const scores = scoreboard.querySelectorAll('p');
-            for(const score in scores){
-                console.log(scores[score].id);
-            }
+
         }
 
         const keyboardListener = createKeyboardListener(document);
@@ -105,11 +113,7 @@
             keyboardListener.subscribe((command) => {
                 socket.emit(command.type, command)
             })
-            for(const player in game.state.players){
-                const playerId = game.state.players[player].playerId
-                const score = game.state.players[player].score
-                addScoreboard(playerId, state)
-            }
+            addScoreboard(playerId, game.state, true);
             const screen = document.getElementById('screen');
             screen.width = state.screen.width;
             screen.height = state.screen.height;
@@ -117,6 +121,7 @@
 
         socket.on('add-player', (command) => {
             game.addPlayer(command)
+            addScoreboard(command.playerId, game.state, false);
         })
 
         socket.on('add-fruit', (command) => {
@@ -125,6 +130,7 @@
 
         socket.on('remove-player', (command) => {
             game.removePlayer(command)
+            removeScoreboard(command);
         })
 
         socket.on('remove-fruit', (command) => {
