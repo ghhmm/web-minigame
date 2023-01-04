@@ -6,7 +6,7 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
 
     for(const playerId in game.state.players){
         const player = game.state.players[playerId]
-        context.fillStyle = 'black'
+        context.fillStyle = '#faeeca'
         context.fillRect(player.x, player.y, 1, 1);
     }
 
@@ -19,7 +19,7 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
     const currentPlayer = game.state.players[currentPlayerId]
 
     if(currentPlayer){
-        context.fillStyle = '#F0DB4F'
+        context.fillStyle = '#95d0b8'
         context.fillRect(currentPlayer.x, currentPlayer.y, 1, 1)
     }
 

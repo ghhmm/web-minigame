@@ -10,6 +10,10 @@ export default function createGame() {
     
     const observers = []
 
+    function start(time){
+        setInterval(addFruit, time)
+    }
+
     function subscribe(observerFunction){
         observers.push(observerFunction);
     }
@@ -54,37 +58,57 @@ export default function createGame() {
 
 
     function addFruit(command) {
-        const fruitId = command.fruitId;
-        const fruitX = command.fruitX;
-        const fruitY = command.fruitY;
+        const fruitId = command ? command.fruitId : Math.floor(Math.random() * 999999999)
+        const fruitX = command ? command.fruitX : Math.floor(Math.random() * state.screen.width);
+        const fruitY = command ? command.fruitY : Math.floor(Math.random() * state.screen.height);
 
         state.fruits[fruitId] = {
             x: fruitX,
             y: fruitY
         };
+
+        notifyAll({
+            type: 'add-fruit',
+            fruitId: fruitId,
+            fruitX: fruitX,
+            fruitY: fruitY
+        })
     }
 
     function removeFruit(command) {
         const fruitId = command.fruitId;
         delete state.fruits[fruitId];
+
+        notifyAll({
+            type: 'remove-fruit',
+            fruitId: fruitId,
+        })
     }
 
     function movePlayer(command){
         notifyAll(command)
 
         const acceptedMoves = {
-            ArrowUp(player) {
-                player.y = Math.max(player.y-1, 0)
+            ArrowUp(player){
+                if (player.y-1 >= 0)
+                player.y-=1
+                else player.y = 19;
             },
-            ArrowDown(player) {
-                player.y = Math.min(player.y+1, state.screen.height-1);
+            ArrowDown(player){
+                if (player.y+1 < state.screen.height)
+                player.y+=1
+                else player.y = 0;
             },
-            ArrowLeft(player) {
-                player.x = Math.max(player.x-1, 0)
+            ArrowLeft(player){
+                if (player.x-1 >= 0)
+                player.x-=1
+                else player.x = 19
             },
-            ArrowRight(player) {
-                player.x = Math.min (player.x+1, state.screen.width-1);
-            }
+            ArrowRight(player){
+                if (player.x+1 < state.screen.width)
+                player.x+=1
+                else player.x = 0
+            },
         }
 
         const keyPressed = command.keyPressed;
@@ -117,6 +141,7 @@ export default function createGame() {
         movePlayer,
         setState,
         subscribe,
+        start,
         state,
     }
 }

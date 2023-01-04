@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
     <style>
+        body {
+            background: #493d3f;
+            color: #f8f2ce;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
         #screen {
             border: 5px dashed gray;
             image-rendering: pixelated;
@@ -18,7 +26,7 @@
 </head>
 <body>
     <h2 style="font-family: sans-serif"> Game: </h2>
-    <canvas id="screen" width="20" height="20"></canvas>
+    <canvas id="screen" width="10" height="10"></canvas>
 
     <script type="module">
         import createGame from './game.js'
@@ -48,14 +56,25 @@
             keyboardListener.subscribe((command) => {
                 socket.emit(command.type, command)
             })
+            const screen = document.getElementById('screen');
+            screen.width = state.screen.width;
+            screen.height = state.screen.height;
         })
 
         socket.on('add-player', (command) => {
             game.addPlayer(command)
         })
 
+        socket.on('add-fruit', (command) => {
+            game.addFruit(command)
+        })
+
         socket.on('remove-player', (command) => {
             game.removePlayer(command)
+        })
+
+        socket.on('remove-fruit', (command) => {
+            game.removeFruit(command)
         })
 
         socket.on('move-player', (command) => {

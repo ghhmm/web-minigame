@@ -10,8 +10,10 @@ const sockets = new Server(server)
 app.use(express.static('public'))
 
 const game = createGame();
+game.start(2000)
+
 game.subscribe((command) => {
-    console.log(`Emititing ${command.type}`)
+    console.log(`Emititing ${command.type}, id: ${command.playerId}`)
     sockets.emit(command.type, command)
 })
 
