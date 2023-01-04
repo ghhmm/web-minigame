@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        #screen {
+            border: 5px dashed gray;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="font-family: sans-serif"> Game: </h2>
+    <canvas id="screen" width="20" height="20"></canvas>
+
+    <script type="module">
+        import createGame from './game.js'
+        import createKeyboardListener from './keyboard-listener.js'
+        import renderScreen from './render-screen.js'
+
+        const screen = document.getElementById('screen');
+
+        const game = createGame();
+
+        game.addFruit({fruitId: 'fruit1', fruitX: 2, fruitY: 2})
+        game.addFruit({fruitId: 'fruit2', fruitX: 3, fruitY: 5})
+        game.addPlayer({playerId: 'player1', playerX: 1, playerY: 4})
+        game.addPlayer({playerId: 'player2', playerX: 6, playerY: 9})
+
+        const keyboardListener = createKeyboardListener(document); 
+        keyboardListener.subscribe(game.movePlayer);
+        renderScreen(screen, game, requestAnimationFrame);
+
+    </script>
+</body>
+</html>
