@@ -12,6 +12,18 @@
             display: flex;
             align-items: center;
             flex-direction: column;
+            font-family: sans-serif
+        }
+
+        .div-container{
+            display: flex;
+            gap: 10px;
+        }
+
+        .scoreboard {
+            border: 1px solid black;
+            width: 100%;
+            justify-self: center;
         }
 
         #screen {
@@ -25,8 +37,13 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <h2 style="font-family: sans-serif"> Game: </h2>
-    <canvas id="screen" width="10" height="10"></canvas>
+    <h2> Game: </h2>
+    <div class="div-container">
+        <canvas id="screen" width="20" height="20"></canvas>
+        <div class="scoreboard">
+            <div>Scoreboard</div>
+        </div>
+    </div>
 
     <script type="module">
         import createGame from './game.js'
@@ -35,8 +52,27 @@
 
         const game = createGame();
 
-        const keyboardListener = createKeyboardListener(document); 
+        function addScoreboard(playerId, score){
+            const scoreboard = document.getElementsByClassName('scoreboard')[0]
+            const divContainer = document.createElement('div')
+            const pId = document.createElement('p');
+            const pScore = document.createElement('p');
 
+            pId.innerHTML = playerId
+            pId.id = playerId
+            pScore.innerHTML = score
+
+            divContainer.appendChild(pId);
+            divContainer.appendChild(pScore);
+
+            scoreboard.appendChild(divContainer);
+        }
+
+        function removeScoreboard(){
+
+        }
+
+        const keyboardListener = createKeyboardListener(document);
         const socket = io();
 
         socket.on('connect', () => {
@@ -81,6 +117,12 @@
             const playerId = socket.id
             if (playerId !== command.playerId){
                 game.movePlayer(command)
+            }
+
+            for(const player in game.state.players){
+                const playerId = game.state.players[player].playerId
+                const score = game.state.players[player].score
+                addScoreboard(playerId, score)
             }
         })
 

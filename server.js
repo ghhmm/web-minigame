@@ -13,7 +13,6 @@ const game = createGame();
 game.start(2000)
 
 game.subscribe((command) => {
-    console.log(`Emititing ${command.type}, id: ${command.playerId}`)
     sockets.emit(command.type, command)
 })
 
@@ -21,21 +20,18 @@ console.log(game.state);
 
 sockets.on('connection', (socket) => {
     const playerId = socket.id
-    console.log(`>> Player connected on Server with ID: ${playerId}`)
-    
+
     game.addPlayer({playerId: playerId});
 
     socket.emit('setup', game.state)
 
     socket.on('disconnect', () => {
         game.removePlayer({playerId: playerId})
-        console.log(`Player disconnected, id: ${playerId}`)
     })
 
     socket.on('move-player', (command) => {
         command.playerId = playerId
         command.type = 'move-player'
-        
         game.movePlayer(command)
     })
 })

@@ -32,10 +32,13 @@ export default function createGame() {
         const playerId = command.playerId;
         const playerX = 'playerX' in command ? command.playerX : Math.floor(Math.random() * state.screen.width);
         const playerY = 'playerY' in command ? command.playerY : Math.floor(Math.random() * state.screen.height);
+        const score = 0;
 
         state.players[playerId] = {
+            playerId,
             x: playerX,
-            y: playerY
+            y: playerY,
+            score
         };
 
         notifyAll({
@@ -44,6 +47,10 @@ export default function createGame() {
             playerX: playerX,
             playerY: playerY
         })
+    }
+
+    function getScore(playerId){
+        state.players[playerId].score+=1;
     }
 
     function removePlayer(command) {
@@ -127,6 +134,7 @@ export default function createGame() {
         for(const fruitId in state.fruits) {
             const fruit = state.fruits[fruitId];
             if (player.x === fruit.x && player.y === fruit.y){
+                getScore(playerId)
                 removeFruit({fruitId});
                 return
             }
