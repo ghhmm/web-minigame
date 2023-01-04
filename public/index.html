@@ -54,18 +54,30 @@
 
         function addScoreboard(playerId, score){
             const scoreboard = document.getElementsByClassName('scoreboard')[0]
+            const scoreds = scoreboard.querySelectorAll('p')
+
             const divContainer = document.createElement('div')
             const pId = document.createElement('p');
             const pScore = document.createElement('p');
 
             pId.innerHTML = playerId
             pId.id = playerId
+            pScore.id = 'score'
             pScore.innerHTML = score
 
             divContainer.appendChild(pId);
             divContainer.appendChild(pScore);
 
-            scoreboard.appendChild(divContainer);
+            function canScore(scores){
+                for(const score in scores){
+                    if (scores[score].id === playerId){
+                        
+                    }else scoreboard.appendChild(divContainer);
+                    console.log(scores[score].id)
+                }
+            }
+            scoreds ? canScore(scoreds)  : console.log('Dont have scores');
+            
         }
 
         function removeScoreboard(){
