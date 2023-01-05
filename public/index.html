@@ -108,7 +108,9 @@
                 scoreArray.push({playerId: playerId, score: player.score, nick: player.nick});
             }
             
+            console.log(game.state.players + ' '+ 'score array: '+scoreArray)
             scoreArray.forEach((score) => {
+                console.log('adicionei')
                 tableInnerHTML += `
                     <div class="div-score-container">
                         <p> ${score.nick} </p>
