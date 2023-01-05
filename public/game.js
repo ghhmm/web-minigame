@@ -132,10 +132,20 @@ export default function createGame() {
         const playerId = command.playerId;
         const player = state.players[playerId];
         const moveFunction = acceptedMoves[keyPressed];
-        if (moveFunction && player){
-            moveFunction(player);
-            checkFruitCollision(playerId);
+        if (command.cheat === 1) {
+            for (let i=0; i < 4; i++){
+                if (moveFunction && player){
+                    moveFunction(player);
+                    checkFruitCollision(playerId);
+                }
+            }
+        }else {
+            if (moveFunction && player){
+                moveFunction(player);
+                checkFruitCollision(playerId);
+            }
         }
+        
     }
 
     function checkFruitCollision(playerId){

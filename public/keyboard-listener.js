@@ -26,7 +26,8 @@ export default function createKeyboardListener(document) {
         const command = {
             type: 'move-player',
             playerId: state.playerId,
-            keyPressed
+            keyPressed,
+            cheat: 0
         }
 
         notifyAll(command);

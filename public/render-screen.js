@@ -1,4 +1,4 @@
-export default function renderScreen(screen, game, requestAnimationFrame, currentPlayerId){
+export default function renderScreen(screen, game, requestAnimationFrame, currentPlayerId, colorPlayer){
     const context = screen.getContext('2d');
 
     context.fillStyle = 'white';
@@ -6,7 +6,7 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
 
     for(const playerId in game.state.players){
         const player = game.state.players[playerId]
-        context.fillStyle = '#faeeca'
+        context.fillStyle = '#92929256'
         context.fillRect(player.x, player.y, 1, 1);
     }
 
@@ -19,11 +19,11 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
     const currentPlayer = game.state.players[currentPlayerId]
 
     if(currentPlayer){
-        context.fillStyle = '#95d0b8'
+        context.fillStyle = colorPlayer
         context.fillRect(currentPlayer.x, currentPlayer.y, 1, 1)
     }
 
     requestAnimationFrame(() => {
-        renderScreen(screen, game, requestAnimationFrame, currentPlayerId);
+        renderScreen(screen, game, requestAnimationFrame, currentPlayerId, colorPlayer);
     });
 }
