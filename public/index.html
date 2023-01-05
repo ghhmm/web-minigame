@@ -23,9 +23,44 @@
         }
 
         .scoreboard {
-            border: 1px solid black;
             width: 15%;
             justify-self: center;
+            text-align: center;
+        }
+        
+        .desc {
+            position: relative;
+            display: flex;
+        }
+
+        .desc span:nth-child(1){
+            align-self: flex-start;
+        }
+
+        .desc span:nth-child(2){
+            position: absolute;
+            right: 0;
+        }
+
+        .score-container {
+            width: 100%;
+        }
+
+        .div-score-container {
+            display: flex;
+            height: 3em;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .div-score-container p {
+            width: 80%;
+            overflow-x: hidden;
+        }
+        .div-score-container span {
+            width: 20%;
+            text-align: center;
+            overflow-x: hidden;
         }
 
         #screen {
@@ -43,7 +78,11 @@
     <div class="div-container">
         <canvas id="screen" width="20" height="20"></canvas>
         <div class="scoreboard">
-            <div>Scoreboard</div>
+            <div>SCOREBOARD</div>
+            <div class="desc"><span>ID</span> <span>SCORE</span></div>
+            <div class="score-container" id="dcontainer">
+
+            </div>
         </div>
     </div>
 
@@ -52,45 +91,34 @@
         import createKeyboardListener from './keyboard-listener.js'
         import renderScreen from './render-screen.js'
 
+        const nickName = prompt("Qual seu nick?");
+
         const game = createGame();
-        const scoreboard = document.getElementsByClassName('scoreboard')[0]
+        const scoreboard = document.getElementById('dcontainer');
         const scores = []
 
-
-        function createElementScore(playerId, command){
-            const divContainer = document.createElement('div')
-            const pId = document.createElement('p');
-            const pScore = document.createElement('span');
-
-            pId.innerHTML = playerId
-            pId.id = playerId
-            pScore.id = 'score'
-            pScore.innerHTML = command.players[playerId].score
-            divContainer.className = 'div-score-container'
-
-            divContainer.appendChild(pId);
-            divContainer.appendChild(pScore);
-
-            scoreboard.appendChild(divContainer)
-        }
-
-        function addScoreboard(playerId, command, first) {
-            const players = command.players;
+        function updateScoreboard() {
             
-            for(const player in players){
-                scores.push({playerId: player});
-                for(const id in scores){
-                    if (playerId === id){
-                        
-                    }
-                }
-                createElementScore(player, command)
+            let tableInnerHTML = '';
+
+            const scoreArray = [];
+
+            for(const playerId in game.state.players){
+                const player = game.state.players[playerId]
+                scoreArray.push({playerId: playerId, score: player.score, nick: player.nick});
             }
-            console.log(scores)
-        }
+            
+            scoreArray.forEach((score) => {
+                tableInnerHTML += `
+                    <div class="div-score-container">
+                        <p> ${score.nick} </p>
+                        <span> ${score.score} </span>
+                    </div>
+                `
+            })
 
-        function removeScoreboard(playerId){
-
+            scoreboard.innerHTML = tableInnerHTML;
+            
         }
 
         const keyboardListener = createKeyboardListener(document);
@@ -106,22 +134,24 @@
 
         socket.on('setup', (state) => {
             const playerId = socket.id
+            socket.emit('add-nickname', {nickName: nickName, playerId: playerId});
             game.setState(state);
-
+            game.state.players[playerId].nick = nickName;
             keyboardListener.registerPlayerId(playerId)
             keyboardListener.subscribe(game.movePlayer);
             keyboardListener.subscribe((command) => {
                 socket.emit(command.type, command)
             })
-            addScoreboard(playerId, game.state, true);
+            updateScoreboard();
             const screen = document.getElementById('screen');
             screen.width = state.screen.width;
             screen.height = state.screen.height;
+    
         })
 
         socket.on('add-player', (command) => {
             game.addPlayer(command)
-            addScoreboard(command.playerId, game.state, false);
+            updateScoreboard()
         })
 
         socket.on('add-fruit', (command) => {
@@ -130,11 +160,12 @@
 
         socket.on('remove-player', (command) => {
             game.removePlayer(command)
-            removeScoreboard(command);
+            updateScoreboard()
         })
 
         socket.on('remove-fruit', (command) => {
             game.removeFruit(command)
+            updateScoreboard()
         })
 
         socket.on('move-player', (command) => {

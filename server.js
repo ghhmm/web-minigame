@@ -34,6 +34,11 @@ sockets.on('connection', (socket) => {
         command.type = 'move-player'
         game.movePlayer(command)
     })
+
+    socket.on('add-nickname', (command) => {
+        game.addNickname(command.playerId, command.nickName);
+    })
+    socket.emit('add-nickname', game.state)
 })
 
 server.listen(3000, () => {

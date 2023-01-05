@@ -92,6 +92,10 @@ export default function createGame() {
         })
     }
 
+    function addNickname(playerId, nickName) {
+        state.players[playerId].nick = nickName;
+    }
+
     function movePlayer(command){
         notifyAll(command)
 
@@ -150,6 +154,7 @@ export default function createGame() {
         setState,
         subscribe,
         start,
+        addNickname,
         state,
     }
 }
