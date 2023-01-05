@@ -97,16 +97,8 @@
         const scoreboard = document.getElementById('dcontainer');
         const scores = []
 
-        function updateScoreboard() {
-            
+        function updateScoreboard(scoreArray) {
             let tableInnerHTML = '';
-
-            const scoreArray = [];
-
-            for(const playerId in game.state.players){
-                const player = game.state.players[playerId]
-                scoreArray.push({playerId: playerId, score: player.score, nick: player.nick});
-            }
             
             console.log(game.state.players + ' '+ 'score array: '+scoreArray)
             scoreArray.forEach((score) => {
@@ -153,7 +145,6 @@
 
         socket.on('add-player', (command) => {
             game.addPlayer(command)
-            updateScoreboard()
         })
 
         socket.on('add-fruit', (command) => {
@@ -162,12 +153,10 @@
 
         socket.on('remove-player', (command) => {
             game.removePlayer(command)
-            updateScoreboard()
         })
 
         socket.on('remove-fruit', (command) => {
             game.removeFruit(command)
-            updateScoreboard()
         })
 
         socket.on('move-player', (command) => {
@@ -175,6 +164,16 @@
             if (playerId !== command.playerId){
                 game.movePlayer(command)
             }
+        })
+
+        socket.on('update-state', (command) => {
+            const scoreArray = [];
+
+            for(const playerId in command.state.players){
+                const player = command.state.players[playerId]
+                scoreArray.push({playerId: playerId, score: player.score, nick: player.nick});
+            }
+            updateScoreboard(scoreArray);
         })
 
     </script>

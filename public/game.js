@@ -63,6 +63,12 @@ export default function createGame() {
         })
     }
 
+    function updateState(time){
+        setInterval(() => {
+            notifyAll({type: 'update-state', state: state})
+            console.log('> STATE UPDATED <')
+        }, time)
+    } 
 
     function addFruit(command) {
         const fruitId = command ? command.fruitId : Math.floor(Math.random() * 999999999)
@@ -155,6 +161,7 @@ export default function createGame() {
         subscribe,
         start,
         addNickname,
+        updateState,
         state,
     }
 }

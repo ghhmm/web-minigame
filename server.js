@@ -11,6 +11,7 @@ app.use(express.static('public'))
 
 const game = createGame();
 game.start(2000)
+game.updateState(500)
 
 game.subscribe((command) => {
     sockets.emit(command.type, command)
