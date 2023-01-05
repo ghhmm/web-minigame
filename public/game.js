@@ -66,7 +66,6 @@ export default function createGame() {
     function updateState(time){
         setInterval(() => {
             notifyAll({type: 'update-state', state: state})
-            console.log('> STATE UPDATED <')
         }, time)
     } 
 

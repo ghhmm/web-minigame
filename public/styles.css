@@ -1,6 +1,6 @@
 body {
     background: #493d3f;
-    color: #f8f2ce;
+    color: rgb(228, 228, 228);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -71,4 +71,29 @@ body {
 .flex {
     display: flex;
     flex-direction: column;
+    gap: 1em;
+}
+
+.flex div{
+    display: flex;
+    flex-direction: column;
+}
+
+.flex div:nth-child(1){
+    gap: .3em;
+}
+
+.flex input[type=text]{
+    background: transparent;
+    border: none;
+    border-bottom: .2em solid black;
+    border-radius: 0 0 .3em .3em;
+    outline: none;
+    color: white;
+    font-size: large;
+    padding: .2em 0 0 .2em
+}
+
+.flex input[type=color]{
+    border: none;
 }

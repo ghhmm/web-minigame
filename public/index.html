@@ -15,13 +15,17 @@
         <div class="scoreboard">
             <div id="title">SCOREBOARD</div>
             <div class="desc"><span>ID</span> <span>SCORE</span></div>
-            <div class="score-container" id="dcontainer">
-
-            </div>
+            <div class="score-container" id="dcontainer"></div>
         </div>
         <div class="flex">
-            <label for="inp-color">Choose your color</label>
-            <input type="color" name="inp-color" id="colorPlayer">
+            <div>
+                <label for="nickPlayer">Nickname: </label>
+                <input type="text" maxlength="10" placeholder="Insert your nickname" id="nickPlayer">
+            </div>
+            <div>
+                <label for="colorPlayer">Choose your color</label>
+                <input type="color" id="colorPlayer">
+            </div>
         </div>
     </div>
 
@@ -30,9 +34,11 @@
         import createKeyboardListener from './keyboard-listener.js'
         import renderScreen from './render-screen.js'
 
-        let nickName = prompt("Qual seu nick?")
+        let nickName = '';
 
         const inpColor = document.getElementById('colorPlayer');
+        const inpNick = document.getElementById('nickPlayer');
+
         inpColor.value = '#e8e88c'
 
         const game = createGame();
