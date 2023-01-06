@@ -40,6 +40,7 @@
         const btnUpdate = document.getElementById('btnSubmit');
 
         inpColor.value = '#e8e88c'
+        let nickName = inpNick.value
 
         const game = createGame();
         const scoreboard = document.getElementById('dcontainer');
@@ -78,15 +79,14 @@
 
         socket.on('setup', (state) => {
             const playerId = socket.id
-            inpNick.value = inpNick.value ? inpNick : playerId
-            game.state.players[playerId].nick = inpNick.value
+            nickName = nickName ? nickName : playerId
+            game.state.players[playerId].nick = nickName ? nickName : playerId
             
-            socket.emit('add-nickname', {nickName: inpNick.value, playerId: playerId, color: inpColor.value});
-            btnUpdate.addEventListener('click', () => {
+            socket.emit('add-nickname', {nickName: nickName, playerId: playerId, color: inpColor.value});
+            btnUpdate.addEventListener('', () => {
 
-                socket.emit('add-nickname', {nickName: inpNick.value, playerId: playerId, color: inpColor.value});
+                socket.emit('add-nickname', {nickName: nickName, playerId: playerId, color: inpColor.value});
                 inpNick.setAttribute('disabled','')
-                console.log('pika')
             })
 
             game.setState(state);
