@@ -10,7 +10,7 @@ const sockets = new Server(server)
 app.use(express.static('public'))
 
 const game = createGame();
-game.start(2000)
+// game.start(2000)
 game.updateState(500)
 
 game.subscribe((command) => {

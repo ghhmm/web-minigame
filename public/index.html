@@ -45,6 +45,7 @@
 
         const keyboardListener = createKeyboardListener(document);
         const socket = io();
+        const screen = document.getElementById('screen');
 
         function updateScoreboard(scoreArray) {
 
@@ -130,6 +131,7 @@
             for(const playerId in command.state.players){
                 const player = command.state.players[playerId]
                 scoreArray.push({playerId: playerId, score: player.score, nick: player.nick});
+                game.state.players[playerId].color = player.color
             }
 
             updateScoreboard(scoreArray);

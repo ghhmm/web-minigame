@@ -3,8 +3,8 @@ export default function createGame() {
         players: {},
         fruits: {},
         screen: {
-            width: 50,
-            height: 50
+            width: 20,
+            height: 20
         }
     }
     
@@ -40,7 +40,7 @@ export default function createGame() {
             y: playerY,
             score,
             nick: playerId.slice(0, 5),
-            color: ''
+            color: 'yellow'
         };
 
         notifyAll({
