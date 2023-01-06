@@ -3,8 +3,8 @@ export default function createGame() {
         players: {},
         fruits: {},
         screen: {
-            width: 20,
-            height: 20
+            width: 50,
+            height: 50
         }
     }
     
@@ -39,7 +39,7 @@ export default function createGame() {
             x: playerX,
             y: playerY,
             score,
-            nick: playerId,
+            nick: playerId.slice(0, 5),
             color: ''
         };
 
@@ -75,6 +75,13 @@ export default function createGame() {
         const fruitId = command ? command.fruitId : Math.floor(Math.random() * 999999999)
         const fruitX = command ? command.fruitX : Math.floor(Math.random() * state.screen.width);
         const fruitY = command ? command.fruitY : Math.floor(Math.random() * state.screen.height);
+
+        for(const fruit in state.fruits){
+            if (
+                    fruitX === state.fruits[fruit].x &&
+                    fruitY === state.fruits[fruit].y
+                ) return
+        }
 
         state.fruits[fruitId] = {
             x: fruitX,

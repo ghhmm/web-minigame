@@ -81,7 +81,7 @@
 
             btnUpdate.addEventListener('click', () => {
                 let nickName = inpNick.value
-                nickName = nickName ? nickName : playerId
+                nickName = nickName ? nickName : playerId;
                 
                 socket.emit('add-nickname', {nickName: nickName, playerId: playerId, color: inpColor.value});
                 inpNick.setAttribute('disabled','')
