@@ -27,6 +27,13 @@
             </div>
             <button id="btnSubmit">Update</button>
             <button id="btnRemoveAllFruits">Delete All Fruits</button>
+            <div class="checkboxes">
+                <span> Add fruits </span>
+                <div class="add-fruits">
+                    <input type="checkbox" id="mouseFruit">
+                    <div class="indicator"></div>
+                </div>
+            </div>
         </div>
     </div>
     <script type="module">
@@ -46,6 +53,14 @@
 
         const keyboardListener = createKeyboardListener(document);
         const socket = io();
+
+        function getMousePos(screen, evt) {
+            var rect = screen.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
 
         function updateScoreboard(scoreArray) {
 
@@ -81,7 +96,7 @@
 
             btnUpdate.addEventListener('click', () => {
                 let nickName = inpNick.value
-                nickName = nickName ? nickName : playerId;
+                nickName = nickName ? nickName : playerId.slice(0, 5);
                 
                 socket.emit('add-nickname', {nickName: nickName, playerId: playerId, color: inpColor.value});
                 inpNick.setAttribute('disabled','')
@@ -103,6 +118,12 @@
             screen.width = state.screen.width;
             screen.height = state.screen.height;
     
+            screen.addEventListener('click', (evt) => {
+                var mousePos = getMousePos(screen, evt);
+                const mX = Math.floor(mousePos.x/20)
+                const mY = Math.floor(mousePos.y/20)
+                socket.emit('add-fruit', {fruitX: mX, fruitY: mY})
+            }, false)
         })
 
         socket.on('add-player', (command) => {

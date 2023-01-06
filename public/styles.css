@@ -142,3 +142,49 @@ button:hover{
     cursor: pointer;
     background: #c97e8c23;
 }
+
+.checkboxes {
+    position: relative;
+}
+
+.add-fruits {
+    background: #171c21;
+    position: absolute;
+    width: 60px;
+    height: 25px;
+    right: 0;
+    margin-right: 5px;
+    border-radius: 50px;
+}
+
+.add-fruits span{
+    display: flex;
+    color: red;
+}
+
+.add-fruits input {
+    position: relative;
+    z-index: 1;
+    width: 4em;
+    height: 4em;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.add-fruits input:checked ~ .indicator {
+    left: 35px;
+    background: #c97e8c6c;
+    box-shadow: inset 0 0 15px rgb(204, 161, 161)
+}
+
+.add-fruits .indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #c97e8c6c;
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    box-shadow: inset 0 0 15px #2b12126c;
+    transition: 0.5s;
+}

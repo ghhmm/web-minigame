@@ -47,6 +47,11 @@ sockets.on('connection', (socket) => {
     })
 
     socket.emit('add-nickname', game.state)
+
+    socket.on('add-fruit', (command) => {
+        game.addFruit({fruitX: command.fruitX, fruitY: command.fruitY})
+        console.log(game.state.fruits)
+    })
 })
 
 server.listen(3000, () => {

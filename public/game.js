@@ -40,7 +40,7 @@ export default function createGame() {
             y: playerY,
             score,
             nick: playerId.slice(0, 5),
-            color: 'yellow'
+            color: '#e8e88c'
         };
 
         notifyAll({
@@ -72,7 +72,7 @@ export default function createGame() {
     } 
 
     function addFruit(command) {
-        const fruitId = command ? command.fruitId : Math.floor(Math.random() * 999999999)
+        const fruitId = command.fruitId ? command.fruitId : Math.floor(Math.random() * 999999999)
         const fruitX = command ? command.fruitX : Math.floor(Math.random() * state.screen.width);
         const fruitY = command ? command.fruitY : Math.floor(Math.random() * state.screen.height);
 
@@ -87,7 +87,7 @@ export default function createGame() {
             x: fruitX,
             y: fruitY
         };
-
+        
         notifyAll({
             type: 'add-fruit',
             fruitId: fruitId,
