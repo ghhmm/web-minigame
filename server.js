@@ -41,6 +41,11 @@ sockets.on('connection', (socket) => {
         game.addNickname(command.playerId, command.nickName);
         player.color = command.color
     })
+
+    socket.on('remove-all-fruits', () => {
+        game.removeAllFruits()
+    })
+
     socket.emit('add-nickname', game.state)
 })
 

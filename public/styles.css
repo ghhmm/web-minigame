@@ -47,14 +47,15 @@ body {
 
 .div-score-container {
     display: flex;
+    height: 2em;
     max-height: 2em;
     align-items: center;
     gap: 10px;
-    margin: .2em .5em .2em .5em;
+    padding: .2em 0 .2em .5em;
+    border: 1px solid #b47480a8
 }
 
 .div-score-container p {
-    width: 60%;
     overflow-x: hidden;
 }
 .div-score-container span {
@@ -124,7 +125,7 @@ body {
     height: 50px;
 }
 
-#btnSubmit {
+button {
     align-self: center;
     border: none;
     background: #c97e8c6c;
@@ -134,7 +135,7 @@ body {
     border-radius: 100px;
 }
 
-#btnSubmit:hover{
+button:hover{
     cursor: pointer;
     background: #c97e8c23;
 }

@@ -99,8 +99,20 @@ export default function createGame() {
         })
     }
 
+    function removeAllFruits() {
+        for (const fruit in state.fruits){
+            delete state.fruits[fruit];
+        }
+
+        notifyAll({
+            type: 'remove-fruits-client'
+        })
+    }
+
     function addNickname(playerId, nickName) {
-        state.players[playerId].nick = nickName;
+        state.players[playerId] ? state.players[playerId].nick = nickName : '';
+        state.players[playerId].nick ? state.players[playerId].nick = nickName : '';
+        nickName ? state.players[playerId].nick = nickName : '';
     }
 
     function movePlayer(command){
@@ -173,6 +185,7 @@ export default function createGame() {
         start,
         addNickname,
         updateState,
+        removeAllFruits,
         state,
     }
 }
