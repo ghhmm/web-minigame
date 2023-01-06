@@ -52,7 +52,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: .2em 0 .2em .5em;
-    border: 1px solid #b47480a8
+    border-bottom: 1px solid #b47480a8
 }
 
 .div-score-container p {
