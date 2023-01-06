@@ -1,4 +1,4 @@
-export default function renderScreen(screen, game, requestAnimationFrame, currentPlayerId, colorPlayer){
+export default function renderScreen(screen, game, requestAnimationFrame, currentPlayerId){
     const context = screen.getContext('2d');
 
     context.fillStyle = 'white';
@@ -19,7 +19,7 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
     const currentPlayer = game.state.players[currentPlayerId]
 
     if(currentPlayer){
-        context.fillStyle = colorPlayer
+        context.fillStyle = game.state.players[currentPlayerId].color ? game.state.players[currentPlayerId].color : '#e8e88c'
         context.fillRect(currentPlayer.x, currentPlayer.y, 1, 1)
     }
 

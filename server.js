@@ -37,7 +37,9 @@ sockets.on('connection', (socket) => {
     })
 
     socket.on('add-nickname', (command) => {
+        const player = game.state.players[playerId];
         game.addNickname(command.playerId, command.nickName);
+        player.color = command.color
     })
     socket.emit('add-nickname', game.state)
 })

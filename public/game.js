@@ -38,7 +38,9 @@ export default function createGame() {
             playerId,
             x: playerX,
             y: playerY,
-            score
+            score,
+            nick: playerId,
+            color: ''
         };
 
         notifyAll({

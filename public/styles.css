@@ -1,6 +1,6 @@
 body {
     background: #493d3f;
-    color: rgb(228, 228, 228);
+    color: #e4e4e4;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -83,6 +83,22 @@ body {
     gap: .3em;
 }
 
+.flex div:nth-child(2){
+    flex-direction: row;
+    gap: .3em;
+    align-self: center;
+    align-items: center;
+}
+
+.flex div:nth-child(2) label:hover{
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.281);
+}
+
+.flex div:nth-child(2) input:hover{
+    cursor: pointer;
+}
+
 .flex input[type=text]{
     background: transparent;
     border: none;
@@ -96,4 +112,22 @@ body {
 
 .flex input[type=color]{
     border: none;
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+}
+
+#btnSubmit {
+    align-self: center;
+    border: none;
+    background: #c97e8c6c;
+    color: #e4e4e4;
+    width: 60%;
+    height: 3em;
+    border-radius: 100px;
+}
+
+#btnSubmit:hover{
+    cursor: pointer;
+    background: #c97e8c23;
 }

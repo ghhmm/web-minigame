@@ -26,6 +26,7 @@
                 <label for="colorPlayer">Choose your color</label>
                 <input type="color" id="colorPlayer">
             </div>
+            <button id="btnSubmit">Update</button>
         </div>
     </div>
 
@@ -34,16 +35,17 @@
         import createKeyboardListener from './keyboard-listener.js'
         import renderScreen from './render-screen.js'
 
-        let nickName = '';
-
         const inpColor = document.getElementById('colorPlayer');
         const inpNick = document.getElementById('nickPlayer');
+        const btnUpdate = document.getElementById('btnSubmit');
 
         inpColor.value = '#e8e88c'
 
         const game = createGame();
         const scoreboard = document.getElementById('dcontainer');
-        const scores = []
+
+        const keyboardListener = createKeyboardListener(document);
+        const socket = io();
 
         function updateScoreboard(scoreArray) {
 
@@ -66,24 +68,27 @@
             
         }
 
-        const keyboardListener = createKeyboardListener(document);
-        const socket = io();
-
         socket.on('connect', () => {
             const playerId = socket.id
             console.log(`Player conneted on Client with ID: ${playerId}`);
 
             const screen = document.getElementById('screen');
-            renderScreen(screen, game, requestAnimationFrame, playerId, inpColor.value);
+            renderScreen(screen, game, requestAnimationFrame, playerId);
         })
 
         socket.on('setup', (state) => {
             const playerId = socket.id
-            nickName = nickName ? nickName : playerId
-            game.state.players[playerId].nick = nickName ? nickName : playerId
+            inpNick.value = inpNick.value ? inpNick : playerId
+            game.state.players[playerId].nick = inpNick.value
             
-            socket.emit('add-nickname', {nickName: nickName, playerId: playerId});
-            
+            socket.emit('add-nickname', {nickName: inpNick.value, playerId: playerId, color: inpColor.value});
+            btnUpdate.addEventListener('click', () => {
+
+                socket.emit('add-nickname', {nickName: inpNick.value, playerId: playerId, color: inpColor.value});
+                inpNick.setAttribute('disabled','')
+                console.log('pika')
+            })
+
             game.setState(state);
             
             keyboardListener.registerPlayerId(playerId)
@@ -122,6 +127,8 @@
 
         socket.on('update-state', (command) => {
             const scoreArray = [];
+            const color = command.state.players[socket.id].color
+            game.state.players[socket.id].color = color;
 
             for(const playerId in command.state.players){
                 const player = command.state.players[playerId]
