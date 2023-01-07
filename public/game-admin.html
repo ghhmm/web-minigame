@@ -28,10 +28,12 @@
             <button id="btnSubmit">Update</button>
             <button id="btnRemoveAllFruits">Delete All Fruits</button>
             <div class="checkboxes">
-                <span> Add fruits </span>
-                <div class="add-fruits">
-                    <input type="checkbox" id="mouseFruit">
-                    <div class="indicator"></div>
+                <div class="div-item-main">
+                    <label for="mouseFruit" class="item-desc"> Add fruits </label>
+                    <div class="div-check">
+                        <input class="checkbox" type="checkbox" id="mouseFruit">
+                        <div class="indicator"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,6 +48,8 @@
         const inpNick = document.getElementById('nickPlayer');
         const btnUpdate = document.getElementById('btnSubmit');
         const btnRemoveAllFruits = document.getElementById('btnRemoveAllFruits')
+        const inpChecks = document.getElementsByClassName('checkbox')
+
         inpColor.value = '#e8e88c'
 
         const game = createGame();

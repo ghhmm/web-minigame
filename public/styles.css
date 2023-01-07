@@ -147,8 +147,20 @@ button:hover{
     position: relative;
 }
 
-.add-fruits {
-    background: #171c21;
+label:hover {
+    cursor: pointer;
+}
+
+.div-item-main {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    color: white;
+    height: 2em;
+}
+
+.div-check {
+    background: #2b1e20d0;
     position: absolute;
     width: 60px;
     height: 25px;
@@ -157,12 +169,7 @@ button:hover{
     border-radius: 50px;
 }
 
-.add-fruits span{
-    display: flex;
-    color: red;
-}
-
-.add-fruits input {
+.div-check input {
     position: relative;
     z-index: 1;
     width: 4em;
@@ -171,13 +178,13 @@ button:hover{
     cursor: pointer;
 }
 
-.add-fruits input:checked ~ .indicator {
+.div-check input:checked ~ .indicator {
     left: 35px;
     background: #c97e8c6c;
     box-shadow: inset 0 0 15px rgb(204, 161, 161)
 }
 
-.add-fruits .indicator {
+.div-check .indicator {
     position: absolute;
     top: 0;
     left: 0;
