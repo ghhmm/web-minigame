@@ -10,14 +10,12 @@ const sockets = new Server(server)
 app.use(express.static('public'))
 
 const game = createGame();
-// game.start(2000)
+game.start(2000)
 game.updateState(500)
 
 game.subscribe((command) => {
     sockets.emit(command.type, command)
 })
-
-console.log(game.state);
 
 sockets.on('connection', (socket) => {
     const playerId = socket.id
@@ -46,11 +44,8 @@ sockets.on('connection', (socket) => {
         game.removeAllFruits()
     })
 
-    socket.emit('add-nickname', game.state)
-
     socket.on('add-fruit', (command) => {
         game.addFruit({fruitX: command.fruitX, fruitY: command.fruitY})
-        console.log(game.state.fruits)
     })
 })
 

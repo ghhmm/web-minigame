@@ -8,7 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h2> Game Admin: </h2>
     <div class="div-container">
         <canvas id="screen" width="20" height="20"></canvas>
         <div class="scoreboard">
@@ -38,6 +37,12 @@
             </div>
         </div>
     </div>
+    <div class="bottom">
+        <footer>
+            You are ADMIN 
+            <button id="btnNormal">Normal game</button>
+        </footer>
+    </div>
     <script type="module">
         import {io} from 'https://cdn.socket.io/4.4.1/socket.io.esm.min.js'
         import createGame from './game.js'
@@ -48,9 +53,14 @@
         const inpNick = document.getElementById('nickPlayer');
         const btnUpdate = document.getElementById('btnSubmit');
         const btnRemoveAllFruits = document.getElementById('btnRemoveAllFruits')
+        const btnNormal = document.getElementById('btnNormal')
         const inpChecks = document.getElementsByClassName('checkbox')
 
         inpColor.value = '#e8e88c'
+
+        btnNormal.addEventListener('click', () => {
+            window.location.href = '/'
+        })
 
         const game = createGame();
         const scoreboard = document.getElementById('dcontainer');
@@ -126,7 +136,9 @@
                 var mousePos = getMousePos(screen, evt);
                 const mX = Math.floor(mousePos.x/20)
                 const mY = Math.floor(mousePos.y/20)
-                socket.emit('add-fruit', {fruitX: mX, fruitY: mY})
+                if (inpChecks[0].checked){
+                    socket.emit('add-fruit', {fruitX: mX, fruitY: mY})
+                }
             }, false)
         })
 
@@ -161,8 +173,8 @@
             for(const playerId in command.state.players){
                 const player = command.state.players[playerId]
                 scoreArray.push({playerId: playerId, score: player.score, nick: player.nick});
+                game.state.players[playerId].color = player.color
             }
-
             updateScoreboard(scoreArray);
         })
     </script>

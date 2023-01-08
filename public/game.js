@@ -5,13 +5,14 @@ export default function createGame() {
         screen: {
             width: 20,
             height: 20
-        }
+        },
+        passAdmin: 'sai fora aleqz'
     }
     
     const observers = []
 
     function start(time){
-        setInterval(addFruit, time)
+        setInterval(()=>{addFruit()}, time)
     }
 
     function subscribe(observerFunction){
@@ -72,7 +73,10 @@ export default function createGame() {
     } 
 
     function addFruit(command) {
-        const fruitId = command.fruitId ? command.fruitId : Math.floor(Math.random() * 999999999)
+        let fruitId = ''
+        if (command){
+            fruitId = command.fruitId ? command.fruitId : Math.floor(Math.random() * 999999999)
+        }else fruitId = Math.floor(Math.random() * 999999999)
         const fruitX = command ? command.fruitX : Math.floor(Math.random() * state.screen.width);
         const fruitY = command ? command.fruitY : Math.floor(Math.random() * state.screen.height);
 
@@ -117,9 +121,9 @@ export default function createGame() {
     }
 
     function addNickname(playerId, nickName) {
-        state.players[playerId] ? state.players[playerId].nick = nickName : '';
-        state.players[playerId].nick ? state.players[playerId].nick = nickName : '';
-        nickName ? state.players[playerId].nick = nickName : '';
+        if (state.players[playerId]){
+            nickName ? state.players[playerId].nick = nickName : '';            
+        }
     }
 
     function movePlayer(command){

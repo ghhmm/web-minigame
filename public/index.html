@@ -9,7 +9,6 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <h2> Game: </h2>
     <div class="div-container">
         <canvas id="screen" width="20" height="20"></canvas>
         <div class="scoreboard">
@@ -29,7 +28,11 @@
             <button id="btnSubmit">Update</button>
         </div>
     </div>
-
+    <div class="bottom">
+        <footer>
+            <button id="btnAdmin">Game Admin</button>
+        </footer>
+    </div>
     <script type="module">
         import createGame from './game.js'
         import createKeyboardListener from './keyboard-listener.js'
@@ -38,6 +41,7 @@
         const inpColor = document.getElementById('colorPlayer');
         const inpNick = document.getElementById('nickPlayer');
         const btnUpdate = document.getElementById('btnSubmit');
+        const btnAdmin = document.getElementById('btnAdmin')
         inpColor.value = '#e8e88c'
 
         const game = createGame();
@@ -89,6 +93,13 @@
             })
 
             game.setState(state);
+
+            btnAdmin.addEventListener('click', () => {
+                const pass = prompt('Digite a senha para ADMIN')
+                if (pass === state.passAdmin){
+                    window.location.href = '/game-admin.html'
+                }else alert('Você não é admin... Cai fora.')
+            })
             
             keyboardListener.registerPlayerId(playerId)
             keyboardListener.subscribe(game.movePlayer);
@@ -143,5 +154,6 @@
         })
 
     </script>
+
 </body>
 </html>
